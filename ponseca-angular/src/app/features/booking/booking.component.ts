@@ -44,7 +44,13 @@ export class BookingComponent implements OnInit {
 
   protected readonly form = this.fb.nonNullable.group({
     name: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(80)]],
-    phone: ['', [Validators.required, Validators.pattern(/^(\+?51)?\s?\d{6,9}([\s-]?\d{0,4})$/)]],
+    phone: [
+      '',
+      [
+        Validators.required,
+        Validators.pattern(/^(?:\+?\s?51)?[\s-]*\d{2,3}[\s-]?\d{3}[\s-]?\d{3,4}$/),
+      ],
+    ],
     email: ['', [Validators.email]],
     date: [this.today, [Validators.required, futureDateValidator]],
     time: ['12:00', [Validators.required]],
