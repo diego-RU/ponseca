@@ -1,184 +1,216 @@
+<section class="page-hero">
+  <div class="container page-hero__inner">
+    <p class="section__eyebrow">Reservas y eventos</p>
+    <h1>Reserva tu mesa, sin pagos online obligatorios.</h1>
+    <p class="lead">
+      Completa el formulario y te confirmamos por WhatsApp o llamada. Para eventos privados o grupos
+      grandes, escríbenos al
+      <a [href]="'tel:' + config.business.phone">{{ config.business.phoneHuman }}</a
+      >.
+    </p>
+  </div>
+</section>
+
 <section class="section">
-  <div class="container booking">
-    <header class="section__header">
-      <span class="section__eyebrow">Reservas y eventos</span>
-      <h1>Reserva tu mesa en Recreo Ponceca</h1>
-      <p>
-        Completa el formulario y te confirmaremos por WhatsApp o llamada. Para eventos privados o
-        grupos grandes, escríbenos directamente al
-        <a [href]="config.business.phoneHuman ? 'tel:' + config.business.phone : '#'">
-          {{ config.business.phoneHuman }} </a
-        >.
-      </p>
-    </header>
+  <div class="container booking__layout">
+    <form
+      class="booking__form"
+      [formGroup]="form"
+      (ngSubmit)="submit()"
+      novalidate
+      aria-labelledby="booking-form-title"
+    >
+      <h2 id="booking-form-title" class="visually-hidden">Formulario de reserva</h2>
 
-    <div class="booking__layout">
-      <form
-        class="booking__form card"
-        [formGroup]="form"
-        (ngSubmit)="submit()"
-        novalidate
-        aria-labelledby="booking-form-title"
-      >
-        <h2 id="booking-form-title" class="visually-hidden">Formulario de reserva</h2>
-
-        <div class="form-grid">
-          <div class="form-field">
-            <label for="name">Nombre completo *</label>
-            <input
-              id="name"
-              type="text"
-              autocomplete="name"
-              formControlName="name"
-              required
-              aria-describedby="name-err"
-            />
-            @if (f.name.touched && f.name.errors) {
-              <small id="name-err" class="error">
-                @if (f.name.errors['required']) {
-                  Ingresa tu nombre.
-                } @else if (f.name.errors['minlength']) {
-                  El nombre es muy corto.
-                }
-              </small>
-            }
-          </div>
-
-          <div class="form-field">
-            <label for="phone">Teléfono *</label>
-            <input
-              id="phone"
-              type="tel"
-              inputmode="tel"
-              autocomplete="tel"
-              formControlName="phone"
-              placeholder="+51 9XX XXX XXX"
-              required
-              aria-describedby="phone-err"
-            />
-            @if (f.phone.touched && f.phone.errors) {
-              <small id="phone-err" class="error">
-                @if (f.phone.errors['required']) {
-                  Ingresa un teléfono.
-                } @else if (f.phone.errors['pattern']) {
-                  Formato inválido. Ej. +51 960 719 103.
-                }
-              </small>
-            }
-          </div>
-
-          <div class="form-field">
-            <label for="email">Email (opcional)</label>
-            <input id="email" type="email" autocomplete="email" formControlName="email" />
-            @if (f.email.touched && f.email.errors?.['email']) {
-              <small class="error">Email inválido.</small>
-            }
-          </div>
-
-          <div class="form-field">
-            <label for="date">Fecha *</label>
-            <input
-              id="date"
-              type="date"
-              [min]="today"
-              formControlName="date"
-              required
-              aria-describedby="date-err"
-            />
-            @if (f.date.touched && f.date.errors) {
-              <small id="date-err" class="error">
-                @if (f.date.errors['required']) {
-                  Elige una fecha.
-                } @else if (f.date.errors['pastDate']) {
-                  La fecha debe ser hoy o posterior.
-                }
-              </small>
-            }
-          </div>
-
-          <div class="form-field">
-            <label for="time">Hora *</label>
-            <select id="time" formControlName="time" required>
-              @for (slot of config.reservations.timeSlots; track slot) {
-                <option [value]="slot">{{ slot }}</option>
+      <div class="form-grid">
+        <div class="form-field">
+          <label for="name">Nombre completo *</label>
+          <input
+            id="name"
+            type="text"
+            autocomplete="name"
+            formControlName="name"
+            required
+            aria-describedby="name-err"
+          />
+          @if (f.name.touched && f.name.errors) {
+            <small id="name-err" class="error">
+              @if (f.name.errors['required']) {
+                Ingresa tu nombre.
+              } @else if (f.name.errors['minlength']) {
+                El nombre es muy corto.
               }
-            </select>
-          </div>
-
-          <div class="form-field">
-            <label for="pax">Personas *</label>
-            <input
-              id="pax"
-              type="number"
-              [min]="config.reservations.minPax"
-              [max]="config.reservations.maxPax"
-              formControlName="pax"
-              required
-              aria-describedby="pax-err"
-            />
-            @if (f.pax.touched && f.pax.errors) {
-              <small id="pax-err" class="error">
-                Indica un número entre {{ config.reservations.minPax }} y
-                {{ config.reservations.maxPax }}.
-              </small>
-            }
-          </div>
+            </small>
+          }
         </div>
 
         <div class="form-field">
-          <label for="notes">Notas (opcional)</label>
-          <textarea
-            id="notes"
-            rows="3"
-            maxlength="280"
-            formControlName="notes"
-            placeholder="Cumpleaños, mesa con vista, alergias…"
-          ></textarea>
+          <label for="phone">Teléfono *</label>
+          <input
+            id="phone"
+            type="tel"
+            inputmode="tel"
+            autocomplete="tel"
+            formControlName="phone"
+            placeholder="+51 9XX XXX XXX"
+            required
+            aria-describedby="phone-err"
+          />
+          @if (f.phone.touched && f.phone.errors) {
+            <small id="phone-err" class="error">
+              @if (f.phone.errors['required']) {
+                Ingresa un teléfono.
+              } @else if (f.phone.errors['pattern']) {
+                Formato inválido. Ej. +51 960 719 103.
+              }
+            </small>
+          }
         </div>
 
-        @if (errorMessage(); as err) {
-          <p class="error" role="alert">{{ err }}</p>
-        }
-
-        <div class="booking__actions">
-          <button type="submit" class="btn btn--block" [disabled]="submitting()" aria-live="polite">
-            {{ submitting() ? 'Enviando…' : 'Confirmar reserva' }}
-          </button>
-          <a
-            class="btn btn--whatsapp btn--block"
-            [href]="whatsappFallback()"
-            target="_blank"
-            rel="noopener"
-          >
-            Reservar por WhatsApp
-          </a>
+        <div class="form-field">
+          <label for="email">Email (opcional)</label>
+          <input id="email" type="email" autocomplete="email" formControlName="email" />
+          @if (f.email.touched && f.email.errors?.['email']) {
+            <small class="error">Email inválido.</small>
+          }
         </div>
-      </form>
 
-      <aside class="booking__aside card" aria-label="Información práctica">
-        <h2>Cómo funciona</h2>
+        <div class="form-field">
+          <label for="date">Fecha *</label>
+          <input
+            id="date"
+            type="date"
+            [min]="today"
+            formControlName="date"
+            required
+            aria-describedby="date-err"
+          />
+          @if (f.date.touched && f.date.errors) {
+            <small id="date-err" class="error">
+              @if (f.date.errors['required']) {
+                Elige una fecha.
+              } @else if (f.date.errors['pastDate']) {
+                La fecha debe ser hoy o posterior.
+              }
+            </small>
+          }
+        </div>
+
+        <div class="form-field">
+          <label for="time">Hora *</label>
+          <select id="time" formControlName="time" required>
+            @for (slot of config.reservations.timeSlots; track slot) {
+              <option [value]="slot">{{ slot }}</option>
+            }
+          </select>
+        </div>
+
+        <div class="form-field">
+          <label for="pax">Personas *</label>
+          <input
+            id="pax"
+            type="number"
+            [min]="config.reservations.minPax"
+            [max]="config.reservations.maxPax"
+            formControlName="pax"
+            required
+            aria-describedby="pax-err"
+          />
+          @if (f.pax.touched && f.pax.errors) {
+            <small id="pax-err" class="error">
+              Indica un número entre {{ config.reservations.minPax }} y
+              {{ config.reservations.maxPax }}.
+            </small>
+          }
+        </div>
+      </div>
+
+      <div class="form-field">
+        <label for="notes">Notas (opcional)</label>
+        <textarea
+          id="notes"
+          rows="3"
+          maxlength="280"
+          formControlName="notes"
+          placeholder="Cumpleaños, mesa con vista, alergias…"
+        ></textarea>
+      </div>
+
+      @if (errorMessage(); as err) {
+        <p class="error" role="alert">{{ err }}</p>
+      }
+
+      <div class="booking__actions">
+        <button
+          type="submit"
+          class="btn btn--accent btn--block"
+          [disabled]="submitting()"
+          aria-live="polite"
+        >
+          @if (submitting()) {
+            Enviando…
+          } @else {
+            <ng-container>
+              Confirmar reserva
+              <app-icon name="arrow-right" />
+            </ng-container>
+          }
+        </button>
+        <a
+          class="btn btn--whatsapp btn--block"
+          [href]="whatsappFallback()"
+          target="_blank"
+          rel="noopener"
+        >
+          <app-icon name="whatsapp" />
+          Reservar por WhatsApp
+        </a>
+      </div>
+    </form>
+
+    <aside class="booking__aside" aria-label="Información práctica">
+      <div class="booking__aside-card">
+        <span class="section__eyebrow">Cómo funciona</span>
         <ol>
-          <li>Completas el formulario con tus datos.</li>
-          <li>Recibimos la solicitud y te confirmamos por WhatsApp o llamada.</li>
-          <li>El día de tu visita, llegas y disfrutas. ¡Eso es todo!</li>
+          <li><span>01</span><span>Completas el formulario con tus datos.</span></li>
+          <li>
+            <span>02</span
+            ><span>Recibimos la solicitud y te confirmamos por WhatsApp o llamada.</span>
+          </li>
+          <li><span>03</span><span>El día de tu visita, llegas y disfrutas.</span></li>
         </ol>
+      </div>
 
-        <h3>Datos del recreo</h3>
-        <p>
-          {{ config.business.address }}<br />
-          {{ config.business.city }}, {{ config.business.region }} – {{ config.business.country }}
-        </p>
-        <p>
-          <strong>Horario:</strong> {{ config.business.hoursLabel }}<br />
-          <strong>Teléfono:</strong> {{ config.business.phoneHuman }}<br />
-          <strong>Email:</strong> {{ config.business.email }}
-        </p>
+      <div class="booking__aside-card">
+        <span class="section__eyebrow">Datos del recreo</span>
+        <ul class="booking__info">
+          <li>
+            <app-icon name="map-pin" />
+            <span>
+              {{ config.business.address }}<br />
+              {{ config.business.city }}, {{ config.business.region }} –
+              {{ config.business.country }}
+            </span>
+          </li>
+          <li>
+            <app-icon name="clock" />
+            <span>{{ config.business.hoursLabel }}</span>
+          </li>
+          <li>
+            <app-icon name="phone" />
+            <a [href]="'tel:' + config.business.phone">{{ config.business.phoneHuman }}</a>
+          </li>
+          <li>
+            <app-icon name="whatsapp" />
+            <a [href]="'mailto:' + config.business.email">{{ config.business.email }}</a>
+          </li>
+        </ul>
+      </div>
 
-        <p class="muted">
-          Para eventos privados, mínimo 24 h de anticipación. Pago presencial. Si prefieres dejar un
-          anticipo en línea, escríbenos por WhatsApp.
-        </p>
-      </aside>
-    </div>
+      <p class="muted">
+        Para eventos privados pedimos mínimo 24 h de anticipación. Pago presencial; si prefieres
+        dejar un anticipo en línea, escríbenos por WhatsApp.
+      </p>
+    </aside>
   </div>
 </section>

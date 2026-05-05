@@ -12,6 +12,7 @@ import { APP_CONFIG } from '../../core/config/app-config';
 import { BookingService } from '../../core/services/booking.service';
 import { NotificationService } from '../../core/services/notification.service';
 import { SeoService } from '../../core/services/seo.service';
+import { IconComponent } from '../../shared/components/icon/icon.component';
 
 function futureDateValidator(control: AbstractControl): ValidationErrors | null {
   const value = control.value as string | null;
@@ -25,7 +26,7 @@ function futureDateValidator(control: AbstractControl): ValidationErrors | null 
 @Component({
   selector: 'app-booking',
   standalone: true,
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, IconComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './booking.component.html',
   styleUrl: './booking.component.css',

@@ -13,6 +13,7 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { MenuCategory, MenuItem } from '../../core/models/menu-item.model';
 import { MenuService } from '../../core/services/menu.service';
 import { SeoService } from '../../core/services/seo.service';
+import { IconComponent } from '../../shared/components/icon/icon.component';
 import { SolCurrencyPipe } from '../../shared/pipes/sol-currency.pipe';
 
 interface CategoryFilter {
@@ -23,7 +24,7 @@ interface CategoryFilter {
 @Component({
   selector: 'app-menu-list',
   standalone: true,
-  imports: [NgClass, SolCurrencyPipe],
+  imports: [NgClass, IconComponent, SolCurrencyPipe],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './menu-list.component.html',
   styleUrl: './menu-list.component.css',

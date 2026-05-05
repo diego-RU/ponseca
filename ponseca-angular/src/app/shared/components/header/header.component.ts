@@ -4,11 +4,12 @@ import { filter } from 'rxjs/operators';
 
 import { APP_CONFIG } from '../../../core/config/app-config';
 import { AuthService } from '../../../core/services/auth.service';
+import { IconComponent } from '../icon/icon.component';
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [RouterLink, RouterLinkActive],
+  imports: [RouterLink, RouterLinkActive, IconComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './header.component.html',
   styleUrl: './header.component.css',
