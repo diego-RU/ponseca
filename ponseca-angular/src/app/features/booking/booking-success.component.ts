@@ -7,6 +7,7 @@ import { APP_CONFIG } from '../../core/config/app-config';
 import { Booking } from '../../core/models/booking.model';
 import { NotificationService } from '../../core/services/notification.service';
 import { SeoService } from '../../core/services/seo.service';
+import { IconComponent } from '../../shared/components/icon/icon.component';
 
 interface NavState {
   booking?: Booking;
@@ -16,14 +17,17 @@ interface NavState {
 @Component({
   selector: 'app-booking-success',
   standalone: true,
-  imports: [RouterLink],
+  imports: [RouterLink, IconComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <section class="section">
       <div class="container success">
-        <div class="success__card card">
-          <div class="success__icon" aria-hidden="true">✓</div>
-          <h1>¡Reserva recibida!</h1>
+        <div class="success__card">
+          <div class="success__icon" aria-hidden="true">
+            <app-icon name="check" />
+          </div>
+          <p class="section__eyebrow">Solicitud registrada</p>
+          <h1>Reserva recibida.</h1>
           @if (booking(); as b) {
             <p>
               Hola <strong>{{ b.name }}</strong
@@ -31,8 +35,8 @@ interface NavState {
               <strong>{{ b.time }}</strong> para <strong>{{ b.pax }}</strong> persona(s).
             </p>
             <p>
-              Te confirmaremos por WhatsApp al <strong>{{ b.phone }}</strong> en breve. Si lo
-              prefieres, también puedes seguir la conversación tú mismo:
+              Te confirmamos por WhatsApp al <strong>{{ b.phone }}</strong> en breve. Si lo
+              prefieres, sigue tú mismo la conversación:
             </p>
           } @else {
             <p>
@@ -43,10 +47,17 @@ interface NavState {
 
           <div class="success__actions">
             <a [href]="whatsappLink()" target="_blank" rel="noopener" class="btn btn--whatsapp">
+              <app-icon name="whatsapp" />
               Continuar por WhatsApp
             </a>
-            <a [href]="phoneLink" class="btn btn--ghost">Llamar al recreo</a>
-            <a routerLink="/" class="btn btn--secondary">Volver al inicio</a>
+            <a [href]="phoneLink" class="btn btn--ghost">
+              <app-icon name="phone" />
+              Llamar al recreo
+            </a>
+            <a routerLink="/" class="btn btn--link">
+              Volver al inicio
+              <app-icon name="arrow-right" />
+            </a>
           </div>
 
           <p class="muted">
@@ -60,22 +71,31 @@ interface NavState {
   `,
   styles: `
     .success__card {
-      max-width: 720px;
+      max-width: 680px;
       margin: 0 auto;
-      padding: 2rem;
+      padding: 2.6rem 1rem;
       text-align: center;
     }
 
     .success__icon {
-      width: 64px;
-      height: 64px;
+      width: 56px;
+      height: 56px;
       border-radius: 50%;
-      background: var(--color-success);
+      background: var(--c-ink);
       color: #fff;
       display: grid;
       place-items: center;
-      font-size: 2rem;
-      margin: 0 auto 1rem;
+      margin: 0 auto 1.6rem;
+    }
+
+    .success__icon app-icon {
+      width: 1.5rem;
+      height: 1.5rem;
+      font-size: 1.5rem;
+    }
+
+    .success__card .section__eyebrow {
+      justify-content: center;
     }
 
     .success__actions {
@@ -83,12 +103,16 @@ interface NavState {
       flex-wrap: wrap;
       gap: 0.75rem;
       justify-content: center;
-      margin: 1.4rem 0 1rem;
+      margin: 2rem 0 1.6rem;
+      border-top: 1px solid var(--c-line);
+      border-bottom: 1px solid var(--c-line);
+      padding: 1.6rem 0;
     }
 
     .muted {
-      color: var(--color-muted);
-      font-size: 0.9rem;
+      color: var(--c-muted);
+      font-size: 0.92rem;
+      margin: 0;
     }
   `,
 })

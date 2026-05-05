@@ -2,18 +2,22 @@ import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/c
 import { Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 
 import { AuthService } from '../../core/services/auth.service';
+import { IconComponent } from '../../shared/components/icon/icon.component';
 
 @Component({
   selector: 'app-admin-shell',
   standalone: true,
-  imports: [RouterLink, RouterLinkActive, RouterOutlet],
+  imports: [RouterLink, RouterLinkActive, RouterOutlet, IconComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <section class="admin">
       <aside class="admin__sidebar" aria-label="Navegación administrativa">
         <div class="admin__brand">
-          <strong>Panel</strong>
-          <small>{{ user()?.role }}</small>
+          <span class="admin__mark" aria-hidden="true">RP</span>
+          <div>
+            <strong>Panel interno</strong>
+            <small>{{ user()?.role }}</small>
+          </div>
         </div>
         <nav>
           <ul>
@@ -31,7 +35,7 @@ import { AuthService } from '../../core/services/auth.service';
             </li>
             @if (isAdmin()) {
               <li>
-                <a routerLink="/admin/menu" routerLinkActive="is-active">Menú</a>
+                <a routerLink="/admin/menu" routerLinkActive="is-active">Carta</a>
               </li>
               <li>
                 <a routerLink="/admin/galeria" routerLinkActive="is-active">Galería</a>
@@ -44,7 +48,10 @@ import { AuthService } from '../../core/services/auth.service';
             <strong>{{ user()?.name }}</strong>
             <small>{{ user()?.email }}</small>
           </div>
-          <button type="button" class="btn btn--ghost btn--sm" (click)="logout()">Salir</button>
+          <button type="button" class="btn btn--ghost btn--sm" (click)="logout()">
+            Salir
+            <app-icon name="arrow-right" />
+          </button>
         </div>
       </aside>
 
@@ -56,7 +63,7 @@ import { AuthService } from '../../core/services/auth.service';
   styles: `
     :host {
       display: block;
-      background: var(--color-sand);
+      background: var(--c-bg);
     }
 
     .admin {
@@ -67,25 +74,47 @@ import { AuthService } from '../../core/services/auth.service';
     }
 
     .admin__sidebar {
-      background: #fff;
-      border-bottom: 1px solid var(--color-line);
-      padding: 1rem;
+      background: var(--c-surface);
+      border-bottom: 1px solid var(--c-line);
+      padding: 1.4rem 1.5rem;
       display: flex;
       flex-direction: column;
-      gap: 1rem;
+      gap: 1.4rem;
     }
 
     .admin__brand {
       display: flex;
-      align-items: baseline;
-      gap: 0.5rem;
+      align-items: center;
+      gap: 0.85rem;
+    }
+
+    .admin__mark {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: var(--c-ink);
+      color: #f5efe1;
+      display: grid;
+      place-items: center;
+      font-family: var(--font-serif);
+      font-weight: 600;
+      font-size: 0.95rem;
+      letter-spacing: 0.04em;
+    }
+
+    .admin__brand strong {
+      display: block;
+      font-family: var(--font-serif);
+      font-size: 1.05rem;
+      letter-spacing: -0.01em;
+      color: var(--c-ink);
     }
 
     .admin__brand small {
-      color: var(--color-muted);
+      color: var(--c-muted);
       text-transform: uppercase;
-      letter-spacing: 0.1em;
-      font-size: 0.7rem;
+      letter-spacing: 0.18em;
+      font-size: 0.65rem;
     }
 
     .admin__sidebar nav ul {
@@ -94,22 +123,37 @@ import { AuthService } from '../../core/services/auth.service';
       padding: 0;
       display: flex;
       flex-wrap: wrap;
-      gap: 0.4rem;
+      gap: 0.3rem;
     }
 
     .admin__sidebar nav a {
       display: inline-block;
-      padding: 0.45rem 0.9rem;
+      padding: 0.5rem 0.95rem;
       border-radius: var(--radius-pill);
-      color: var(--color-ink-soft);
-      background: rgba(31, 26, 23, 0.05);
+      color: var(--c-muted);
+      background: transparent;
+      font-family: var(--font-sans);
       font-weight: 500;
-      font-size: 0.9rem;
+      font-size: 0.82rem;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      border: 1px solid transparent;
+      transition:
+        color 0.18s ease,
+        background 0.18s ease,
+        border-color 0.18s ease;
+    }
+
+    .admin__sidebar nav a:hover,
+    .admin__sidebar nav a:focus-visible {
+      color: var(--c-ink);
+      background: rgba(28, 26, 23, 0.04);
     }
 
     .admin__sidebar nav a.is-active {
-      background: var(--color-primary);
-      color: #fff;
+      background: var(--c-ink);
+      color: #f5efe1;
+      border-color: var(--c-ink);
     }
 
     .admin__user {
@@ -118,31 +162,48 @@ import { AuthService } from '../../core/services/auth.service';
       align-items: center;
       justify-content: space-between;
       flex-wrap: wrap;
+      border-top: 1px solid var(--c-line);
+      padding-top: 1.1rem;
+    }
+
+    .admin__user strong {
+      font-family: var(--font-serif);
+      font-size: 0.95rem;
+      color: var(--c-ink);
     }
 
     .admin__user small {
       display: block;
-      color: var(--color-muted);
-      font-size: 0.8rem;
+      color: var(--c-muted);
+      font-size: 0.78rem;
     }
 
     .admin__content {
-      padding: 1.5rem;
+      padding: 2rem 1.5rem;
     }
 
-    @media (min-width: 880px) {
+    @media (min-width: 960px) {
       .admin {
-        grid-template-columns: 240px 1fr;
+        grid-template-columns: 260px 1fr;
       }
       .admin__sidebar {
-        border-right: 1px solid var(--color-line);
+        border-right: 1px solid var(--c-line);
         border-bottom: 0;
         position: sticky;
         top: 80px;
         height: calc(100vh - 80px);
+        align-self: start;
       }
       .admin__sidebar nav ul {
         flex-direction: column;
+        gap: 0.15rem;
+      }
+      .admin__sidebar nav a {
+        display: block;
+        text-align: left;
+      }
+      .admin__content {
+        padding: 2.5rem 2.5rem;
       }
     }
   `,

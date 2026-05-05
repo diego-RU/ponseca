@@ -1,52 +1,85 @@
 <section class="hero" aria-labelledby="hero-title">
-  <div class="hero__bg" aria-hidden="true"></div>
   <div class="container hero__inner">
-    <p class="section__eyebrow hero__eyebrow">Andahuaylas · Apurímac</p>
-    <h1 id="hero-title">Sabor regional con vista al valle</h1>
-    <p class="hero__lead">
-      Recreo Ponceca es un restaurante campestre donde se reúnen las mejores recetas de la región:
-      cuy al horno, trucha fresca, chairo apurimeño y mucho más, en un ambiente con áreas verdes,
-      zona infantil y mirador.
-    </p>
+    <div class="hero__copy">
+      <p class="section__eyebrow">{{ config.business.city }} · {{ config.business.region }}</p>
+      <h1 id="hero-title">Cocina <em>andina</em> con<br />vista al valle.</h1>
+      <p class="lead">
+        Recreo Ponceca es un comedor de campo en {{ config.business.city }} donde se reúnen las
+        recetas que pasan de generación en generación: cuy al horno, trucha del río, chairo
+        apurimeño y chicharrón con maíz tostado.
+      </p>
 
-    <div class="hero__cta">
-      <a routerLink="/reservas" class="btn">Reservar mesa</a>
-      <a [href]="whatsappLink" target="_blank" rel="noopener" class="btn btn--whatsapp">
-        Escribir por WhatsApp
-      </a>
-      <a [href]="phoneLink" class="btn btn--ghost">Llamar al recreo</a>
+      <div class="hero__cta">
+        <a routerLink="/reservas" class="btn btn--accent">
+          Reservar mesa
+          <app-icon name="arrow-right" />
+        </a>
+        <a [href]="whatsappLink" target="_blank" rel="noopener" class="btn btn--ghost">
+          <app-icon name="whatsapp" />
+          Escribir por WhatsApp
+        </a>
+      </div>
+
+      <div class="hero__rating" aria-label="Calificación promedio">
+        <div class="hero__stars" aria-hidden="true">
+          @for (s of stars; track s) {
+            <span [ngClass]="'star star--' + ratingFraction(config.business.rating, s)">
+              <app-icon name="star" />
+            </span>
+          }
+        </div>
+        <strong>{{ config.business.rating }}</strong>
+        <span>· {{ config.business.ratingCount }} reseñas en Google y TripAdvisor</span>
+      </div>
     </div>
 
-    <div class="hero__rating" aria-label="Calificación promedio">
-      <div class="hero__stars" aria-hidden="true">
-        @for (s of stars; track s) {
-          <span class="star" [ngClass]="'star--' + ratingFraction(config.business.rating, s)"
-            >★</span
-          >
-        }
+    <figure class="hero__media">
+      <img
+        src="https://images.unsplash.com/photo-1559339352-11d035aa65de?auto=format&fit=crop&w=1200&q=80"
+        alt="Mesa servida con platos típicos de Andahuaylas"
+        loading="eager"
+        decoding="async"
+      />
+      <figcaption>
+        <span>Carta de temporada</span>
+        <strong>Otoño · maíz cabanita y trucha del río Chumbao</strong>
+      </figcaption>
+    </figure>
+  </div>
+
+  <div class="hero__strip" role="list">
+    @for (h of highlights; track h.label) {
+      <div role="listitem">
+        <strong>{{ h.number }}</strong>
+        <span class="muted">{{ h.label }} · {{ h.caption }}</span>
       </div>
-      <strong>{{ config.business.rating }}/5</strong>
-      <span>· Más de {{ config.business.ratingCount }} reseñas en Google y TripAdvisor</span>
+    }
+    <div role="listitem">
+      <strong><app-icon name="clock" /></strong>
+      <span class="muted">{{ config.business.hoursLabel }}</span>
     </div>
   </div>
 </section>
 
 <section class="section" aria-labelledby="amenities-title">
-  <div class="container">
+  <div class="container amenities-section">
     <header class="section__header">
-      <span class="section__eyebrow">Lo que ofrecemos</span>
-      <h2 id="amenities-title">Un recreo pensado para toda la familia</h2>
+      <span class="section__eyebrow">El lugar</span>
+      <h2 id="amenities-title">Un recreo pensado para tomarse el día.</h2>
       <p>
-        Espacios al aire libre, atención cordial y platos cocinados con productos de la región.
-        Visítanos cualquier día entre las 09:00 y las 18:00.
+        Áreas verdes, terraza con mirador y zona infantil. Ven en familia, con amigos o a una
+        reunión de empresa: tenemos un espacio para cada visita.
       </p>
     </header>
 
     <ul class="amenities">
       @for (a of amenities; track a.label) {
         <li class="amenity">
-          <span class="amenity__icon" aria-hidden="true">{{ a.icon }}</span>
-          <span class="amenity__label">{{ a.label }}</span>
+          <span class="amenity__icon" aria-hidden="true">
+            <app-icon [name]="a.icon" />
+          </span>
+          <h3>{{ a.label }}</h3>
+          <p>{{ a.description }}</p>
         </li>
       }
     </ul>
@@ -55,51 +88,96 @@
 
 <section class="section section--alt" aria-labelledby="dishes-title">
   <div class="container">
-    <header class="section__header">
-      <span class="section__eyebrow">Nuestra carta</span>
-      <h2 id="dishes-title">Platos que enamoran</h2>
+    <header class="section__header dish-section__header">
+      <div>
+        <span class="section__eyebrow">La carta</span>
+        <h2 id="dishes-title">Platos seleccionados.</h2>
+      </div>
       <p>
-        Una pequeña muestra de nuestros favoritos. Mira la carta completa con precios actualizados.
+        Una pequeña selección rotada según la temporada. Mira la carta completa con precios
+        actualizados y opciones para grupos.
       </p>
     </header>
 
     <div class="dish-grid">
-      @for (dish of highlights$ | async; track dish.id) {
-        <article class="dish card">
-          <div class="dish__media">
+      @for (dish of highlights$ | async; track dish.id; let i = $index) {
+        <article class="dish">
+          <a routerLink="/menu" class="dish__media" aria-label="Ver carta completa">
+            <span class="dish__index">{{ '0' + (i + 1) }}</span>
             <img [src]="dish.imageUrl" [alt]="dish.name" loading="lazy" decoding="async" />
-          </div>
+          </a>
           <div class="dish__body">
-            <h3>{{ dish.name }}</h3>
+            <header>
+              <h3>{{ dish.name }}</h3>
+              <strong class="dish__price">{{ dish.price | sol }}</strong>
+            </header>
             <p>{{ dish.description }}</p>
-            <div class="dish__footer">
-              <strong>{{ dish.price | sol }}</strong>
-              @if (dish.tags?.length) {
-                <span class="tag">{{ dish.tags?.[0] }}</span>
-              }
-            </div>
+            @if (dish.tags?.length) {
+              <ul class="dish__tags">
+                @for (tag of dish.tags; track tag) {
+                  <li class="tag">{{ tag }}</li>
+                }
+              </ul>
+            }
           </div>
         </article>
       }
     </div>
 
-    <div class="section__cta">
-      <a routerLink="/menu" class="btn btn--ghost">Ver carta completa</a>
+    <div class="dish-grid__cta">
+      <a routerLink="/menu" class="btn btn--link">
+        Ver la carta completa
+        <app-icon name="arrow-right" />
+      </a>
     </div>
   </div>
 </section>
 
-<section class="section" aria-labelledby="testimonials-title">
+<section class="section" aria-labelledby="story-title">
+  <div class="container story">
+    <figure class="story__media">
+      <img
+        src="https://images.unsplash.com/photo-1542528180-1c2803a4e1cf?auto=format&fit=crop&w=900&q=80"
+        alt="Cocina del recreo"
+        loading="lazy"
+        decoding="async"
+      />
+    </figure>
+    <div class="story__body">
+      <span class="section__eyebrow">Familia y oficio</span>
+      <h2 id="story-title">Tres generaciones de cocina apurimeña.</h2>
+      <p>
+        Lo que empezó como un pequeño puesto a la salida de Andahuaylas hoy es un recreo donde el
+        horno de barro nunca se apaga. Compramos a productores del valle, cocinamos despacio y
+        servimos como en casa: porciones generosas y atención sin apuros.
+      </p>
+      <a routerLink="/nosotros" class="btn btn--ghost">
+        Conoce nuestra historia
+        <app-icon name="arrow-up-right" />
+      </a>
+    </div>
+  </div>
+</section>
+
+<section class="section section--ink" aria-labelledby="testimonials-title">
   <div class="container">
     <header class="section__header">
-      <span class="section__eyebrow">Lo que dicen</span>
-      <h2 id="testimonials-title">Opiniones de quienes nos visitan</h2>
+      <span class="section__eyebrow">Reseñas</span>
+      <h2 id="testimonials-title">Lo que cuentan los visitantes.</h2>
     </header>
 
     <div class="reviews">
       @for (review of reviews$ | async; track review.id) {
-        <article class="review card">
-          <header class="review__head">
+        <article class="review">
+          <div class="review__stars" aria-label="{{ review.rating }} de 5 estrellas">
+            @for (s of stars; track s) {
+              <span [ngClass]="'star star--' + ratingFraction(review.rating, s)">
+                <app-icon name="star" />
+              </span>
+            }
+          </div>
+          <blockquote>“{{ review.comment }}”</blockquote>
+          <footer>
             <span class="review__avatar" aria-hidden="true">{{
               review.avatarInitial ?? review.author[0]
             }}</span>
@@ -107,29 +185,33 @@
               <strong>{{ review.author }}</strong>
               <small>{{ review.source }} · {{ review.date }}</small>
             </div>
-          </header>
-          <div class="review__stars" aria-label="{{ review.rating }} de 5 estrellas">
-            @for (s of stars; track s) {
-              <span [ngClass]="'star star--' + ratingFraction(review.rating, s)">★</span>
-            }
-          </div>
-          <p>{{ review.comment }}</p>
+          </footer>
         </article>
       }
     </div>
   </div>
 </section>
 
-<section class="section section--cta" aria-labelledby="cta-title">
-  <div class="container section--cta__inner">
+<section class="section section--alt" aria-labelledby="cta-title">
+  <div class="container final-cta">
     <div>
       <span class="section__eyebrow">¿Listo para visitarnos?</span>
-      <h2 id="cta-title">Reserva tu mesa o pregunta por eventos</h2>
-      <p>Confirmamos tu reserva por WhatsApp o por llamada. Sin pagos online obligatorios.</p>
+      <h2 id="cta-title">Reserva tu mesa o consulta por eventos.</h2>
+      <p>Confirmamos por WhatsApp o por llamada. Sin pagos online obligatorios.</p>
     </div>
-    <div class="section--cta__actions">
-      <a routerLink="/reservas" class="btn">Reservar ahora</a>
-      <a [href]="whatsappLink" target="_blank" rel="noopener" class="btn btn--whatsapp">WhatsApp</a>
+    <div class="final-cta__actions">
+      <a routerLink="/reservas" class="btn btn--accent">
+        Reservar ahora
+        <app-icon name="arrow-right" />
+      </a>
+      <a [href]="whatsappLink" target="_blank" rel="noopener" class="btn btn--ghost">
+        <app-icon name="whatsapp" />
+        WhatsApp
+      </a>
+      <a [href]="phoneLink" class="btn btn--link">
+        <app-icon name="phone" />
+        {{ config.business.phoneHuman }}
+      </a>
     </div>
   </div>
 </section>

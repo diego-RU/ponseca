@@ -1,17 +1,20 @@
+<section class="page-hero">
+  <div class="container page-hero__inner">
+    <p class="section__eyebrow">La carta</p>
+    <h1>Sabores de Apurímac, servidos al horno y a la brasa.</h1>
+    <p class="lead">
+      Una selección rotada con productos del valle del Chumbao. Pregunta por las sugerencias del día
+      — la disponibilidad varía según temporada y mercado.
+    </p>
+    <button type="button" class="btn btn--ghost btn--sm" (click)="downloadMenu()">
+      <app-icon name="download" />
+      Descargar carta
+    </button>
+  </div>
+</section>
+
 <section class="section">
   <div class="container">
-    <header class="section__header">
-      <span class="section__eyebrow">Carta del recreo</span>
-      <h1>Sabores de Apurímac</h1>
-      <p>
-        Una selección de platos cocinados con productos locales. Pregunta por nuestras sugerencias
-        del día — la disponibilidad puede variar según temporada.
-      </p>
-      <button type="button" class="btn btn--ghost btn--sm" (click)="downloadMenu()">
-        Descargar carta
-      </button>
-    </header>
-
     <div class="filters" role="tablist" aria-label="Filtrar platos por categoría">
       @for (cat of categories; track cat.id) {
         <button
@@ -28,18 +31,23 @@
     </div>
 
     <ul class="menu-grid" role="list">
-      @for (item of visibleItems(); track item.id) {
+      @for (item of visibleItems(); track item.id; let i = $index) {
         <li>
-          <article class="menu-item card" [attr.aria-disabled]="!item.available">
+          <article class="menu-item" [attr.aria-disabled]="!item.available">
             <div class="menu-item__media">
+              <span class="menu-item__index">{{ '0' + (i + 1) }}</span>
               <img [src]="item.imageUrl" [alt]="item.name" loading="lazy" decoding="async" />
               @if (item.spicy) {
-                <span class="menu-item__badge" aria-label="Picante">🌶️</span>
+                <span class="menu-item__chip" aria-label="Picante">
+                  <app-icon name="sparkles" />
+                  Picante
+                </span>
               }
             </div>
             <div class="menu-item__body">
               <header>
                 <h2>{{ item.name }}</h2>
+                <span class="menu-item__rule" aria-hidden="true"></span>
                 <strong>{{ item.price | sol }}</strong>
               </header>
               <p>{{ item.description }}</p>

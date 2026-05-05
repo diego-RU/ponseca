@@ -1,7 +1,7 @@
 @if (!hideOnAdmin) {
   <div class="sticky-cta" role="region" aria-label="Acciones rápidas">
     <a routerLink="/reservas" class="sticky-cta__btn sticky-cta__btn--primary">
-      <span aria-hidden="true">📅</span>
+      <app-icon name="calendar" />
       <span>Reservar</span>
     </a>
     <a
@@ -10,11 +10,11 @@
       rel="noopener"
       class="sticky-cta__btn sticky-cta__btn--whatsapp"
     >
-      <span aria-hidden="true">💬</span>
+      <app-icon name="whatsapp" />
       <span>WhatsApp</span>
     </a>
-    <a [href]="phoneHref" class="sticky-cta__btn sticky-cta__btn--call">
-      <span aria-hidden="true">📞</span>
+    <a [href]="phoneHref" class="sticky-cta__btn">
+      <app-icon name="phone" />
       <span>Llamar</span>
     </a>
   </div>

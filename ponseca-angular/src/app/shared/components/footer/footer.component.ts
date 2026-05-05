@@ -3,11 +3,12 @@ import { RouterLink } from '@angular/router';
 
 import { APP_CONFIG } from '../../../core/config/app-config';
 import { NotificationService } from '../../../core/services/notification.service';
+import { IconComponent } from '../icon/icon.component';
 
 @Component({
   selector: 'app-footer',
   standalone: true,
-  imports: [RouterLink],
+  imports: [RouterLink, IconComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './footer.component.html',
   styleUrl: './footer.component.css',

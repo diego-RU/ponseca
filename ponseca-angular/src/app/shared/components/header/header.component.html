@@ -1,47 +1,45 @@
 <header class="site-header" [class.is-open]="menuOpen()">
   <div class="container site-header__inner">
-    <a routerLink="/" class="brand" (click)="closeMenu()">
-      <span class="brand__logo" aria-hidden="true">RP</span>
-      <span class="brand__text">
-        <span class="brand__title">Recreo Ponceca</span>
-        <span class="brand__sub">Andahuaylas · Apurímac</span>
+    <a routerLink="/" class="brand" [attr.aria-label]="'Ir a inicio · ' + config.business.name">
+      <span class="brand__mark" aria-hidden="true">RP</span>
+      <span class="brand__words">
+        <span class="brand__name">Recreo Ponceca</span>
+        <span class="brand__tagline">Andahuaylas · Apurímac</span>
       </span>
     </a>
 
     <button
-      class="site-header__toggle"
       type="button"
+      class="nav-toggle"
       [attr.aria-expanded]="menuOpen()"
       aria-controls="site-nav"
-      aria-label="Abrir menú de navegación"
       (click)="toggleMenu()"
     >
-      <span class="bar"></span>
-      <span class="bar"></span>
-      <span class="bar"></span>
+      <span class="visually-hidden">Menú</span>
+      <app-icon [name]="menuOpen() ? 'x' : 'menu'" />
     </button>
 
-    <nav id="site-nav" class="site-nav" aria-label="Principal">
-      <ul class="site-nav__list">
+    <nav id="site-nav" class="site-nav" [attr.data-open]="menuOpen()">
+      <ul>
         @for (item of navItems; track item.path) {
           <li>
             <a
               [routerLink]="item.path"
               routerLinkActive="is-active"
-              [routerLinkActiveOptions]="{ exact: item.path === '/' }"
+              [routerLinkActiveOptions]="item.path === '/' ? { exact: true } : {}"
               (click)="closeMenu()"
             >
               {{ item.label }}
             </a>
           </li>
         }
-        @if (currentUser()) {
-          <li>
-            <a routerLink="/admin" routerLinkActive="is-active" (click)="closeMenu()"> Panel </a>
-          </li>
-        }
       </ul>
-      <a routerLink="/reservas" class="btn btn--sm" (click)="closeMenu()">Reservar</a>
+      <div class="site-nav__cta">
+        <a routerLink="/reservas" class="btn btn--accent btn--sm" (click)="closeMenu()">
+          Reservar mesa
+          <app-icon name="arrow-right" />
+        </a>
+      </div>
     </nav>
   </div>
 </header>

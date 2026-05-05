@@ -1,57 +1,83 @@
 <footer class="site-footer">
-  <div class="container site-footer__grid">
-    <div>
-      <h3>Recreo Ponceca</h3>
-      <p>{{ config.business.tagline }}.</p>
-      <p class="site-footer__hours">{{ config.business.hoursLabel }}</p>
+  <div class="container site-footer__inner">
+    <div class="site-footer__brand">
+      <div class="brand-mark" aria-hidden="true">RP</div>
+      <h2 class="site-footer__title">Recreo Ponceca</h2>
+      <p class="site-footer__lead">{{ config.business.tagline }}.</p>
+      <p class="site-footer__hours">
+        <app-icon name="clock" />
+        {{ config.business.hoursLabel }}
+      </p>
     </div>
 
-    <nav aria-label="Pie de página">
-      <h4>Explora</h4>
-      <ul>
-        <li><a routerLink="/menu">Menú</a></li>
-        <li><a routerLink="/galeria">Galería</a></li>
-        <li><a routerLink="/reservas">Reservas y eventos</a></li>
-        <li><a routerLink="/ubicacion">Cómo llegar</a></li>
-        <li><a routerLink="/contacto">Contacto</a></li>
-      </ul>
-    </nav>
+    <div class="site-footer__columns">
+      <nav aria-label="Pie de página">
+        <h4>Explora</h4>
+        <ul>
+          <li><a routerLink="/">Inicio</a></li>
+          <li><a routerLink="/nosotros">Sobre nosotros</a></li>
+          <li><a routerLink="/menu">Carta</a></li>
+          <li><a routerLink="/galeria">Galería</a></li>
+          <li><a routerLink="/reservas">Reservas y eventos</a></li>
+          <li><a routerLink="/ubicacion">Cómo llegar</a></li>
+          <li><a routerLink="/contacto">Contacto</a></li>
+        </ul>
+      </nav>
 
-    <div>
-      <h4>Visítanos</h4>
-      <address>
-        {{ config.business.address }}<br />
-        {{ config.business.city }}, {{ config.business.region }} - {{ config.business.country }}
-      </address>
-      <ul class="site-footer__contact">
-        <li>
-          <a [href]="phoneLink">{{ config.business.phoneHuman }}</a>
-        </li>
-        <li>
-          <a [href]="whatsappLink" target="_blank" rel="noopener">WhatsApp</a>
-        </li>
-        <li>
-          <a [href]="'mailto:' + config.business.email">{{ config.business.email }}</a>
-        </li>
-      </ul>
-    </div>
+      <div>
+        <h4>Visítanos</h4>
+        <address>
+          {{ config.business.address }}<br />
+          {{ config.business.city }}, {{ config.business.region }}<br />
+          {{ config.business.country }}
+        </address>
+        <ul class="site-footer__contact">
+          <li>
+            <app-icon name="phone" />
+            <a [href]="phoneLink">{{ config.business.phoneHuman }}</a>
+          </li>
+          <li>
+            <app-icon name="whatsapp" />
+            <a [href]="whatsappLink" target="_blank" rel="noopener">WhatsApp</a>
+          </li>
+          <li>
+            <a [href]="'mailto:' + config.business.email">{{ config.business.email }}</a>
+          </li>
+        </ul>
+      </div>
 
-    <div>
-      <h4>Síguenos</h4>
-      <ul class="site-footer__social">
-        <li><a [href]="config.social.facebook" target="_blank" rel="noopener">Facebook</a></li>
-        <li><a [href]="config.social.instagram" target="_blank" rel="noopener">Instagram</a></li>
-        <li>
-          <a [href]="config.social.tripadvisor" target="_blank" rel="noopener">TripAdvisor</a>
-        </li>
-      </ul>
+      <div>
+        <h4>Síguenos</h4>
+        <ul class="site-footer__social">
+          <li>
+            <a [href]="config.social.facebook" target="_blank" rel="noopener">
+              <app-icon name="facebook" />
+              <span>Facebook</span>
+            </a>
+          </li>
+          <li>
+            <a [href]="config.social.instagram" target="_blank" rel="noopener">
+              <app-icon name="instagram" />
+              <span>Instagram</span>
+            </a>
+          </li>
+          <li>
+            <a [href]="config.social.tripadvisor" target="_blank" rel="noopener">
+              <app-icon name="tripadvisor" />
+              <span>TripAdvisor</span>
+            </a>
+          </li>
+        </ul>
+      </div>
     </div>
   </div>
 
   <div class="site-footer__bottom">
-    <div class="container">
+    <div class="container site-footer__bottom-inner">
       <small>© {{ year }} {{ config.business.name }}. Todos los derechos reservados.</small>
-      <small><a routerLink="/admin/login">Acceso staff</a></small>
+      <small>
+        <a routerLink="/admin/login">Acceso staff</a>
+      </small>
     </div>
   </div>
 </footer>
