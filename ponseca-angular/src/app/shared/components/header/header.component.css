@@ -1,7 +1,11 @@
-.site-header {
+:host {
+  display: block;
   position: sticky;
   top: 0;
   z-index: 60;
+}
+
+.site-header {
   background: rgba(247, 243, 236, 0.92);
   -webkit-backdrop-filter: saturate(140%) blur(10px);
   backdrop-filter: saturate(140%) blur(10px);
