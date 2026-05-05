@@ -1,0 +1,60 @@
+:host {
+  display: contents;
+}
+
+.sticky-cta {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0;
+  background: rgba(31, 26, 23, 0.92);
+  backdrop-filter: blur(6px);
+  z-index: 50;
+  padding: 0.6rem 0.6rem calc(0.6rem + env(safe-area-inset-bottom));
+  box-shadow: 0 -8px 30px rgba(0, 0, 0, 0.18);
+}
+
+.sticky-cta__btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.15rem;
+  font-size: 0.78rem;
+  font-weight: 600;
+  padding: 0.55rem 0.4rem;
+  border-radius: var(--radius-sm);
+  color: #fff;
+  text-decoration: none;
+}
+
+.sticky-cta__btn span:first-child {
+  font-size: 1.25rem;
+}
+
+.sticky-cta__btn:hover,
+.sticky-cta__btn:focus-visible {
+  text-decoration: none;
+  filter: brightness(1.1);
+}
+
+.sticky-cta__btn--primary {
+  background: var(--color-primary);
+}
+
+.sticky-cta__btn--whatsapp {
+  background: var(--color-whatsapp-dark);
+}
+
+.sticky-cta__btn--call {
+  background: var(--color-accent);
+}
+
+@media (min-width: 960px) {
+  .sticky-cta {
+    display: none;
+  }
+}

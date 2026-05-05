@@ -1,0 +1,135 @@
+<section class="hero" aria-labelledby="hero-title">
+  <div class="hero__bg" aria-hidden="true"></div>
+  <div class="container hero__inner">
+    <p class="section__eyebrow hero__eyebrow">Andahuaylas · Apurímac</p>
+    <h1 id="hero-title">Sabor regional con vista al valle</h1>
+    <p class="hero__lead">
+      Recreo Ponceca es un restaurante campestre donde se reúnen las mejores recetas de la región:
+      cuy al horno, trucha fresca, chairo apurimeño y mucho más, en un ambiente con áreas verdes,
+      zona infantil y mirador.
+    </p>
+
+    <div class="hero__cta">
+      <a routerLink="/reservas" class="btn">Reservar mesa</a>
+      <a [href]="whatsappLink" target="_blank" rel="noopener" class="btn btn--whatsapp">
+        Escribir por WhatsApp
+      </a>
+      <a [href]="phoneLink" class="btn btn--ghost">Llamar al recreo</a>
+    </div>
+
+    <div class="hero__rating" aria-label="Calificación promedio">
+      <div class="hero__stars" aria-hidden="true">
+        @for (s of stars; track s) {
+          <span class="star" [ngClass]="'star--' + ratingFraction(config.business.rating, s)"
+            >★</span
+          >
+        }
+      </div>
+      <strong>{{ config.business.rating }}/5</strong>
+      <span>· Más de {{ config.business.ratingCount }} reseñas en Google y TripAdvisor</span>
+    </div>
+  </div>
+</section>
+
+<section class="section" aria-labelledby="amenities-title">
+  <div class="container">
+    <header class="section__header">
+      <span class="section__eyebrow">Lo que ofrecemos</span>
+      <h2 id="amenities-title">Un recreo pensado para toda la familia</h2>
+      <p>
+        Espacios al aire libre, atención cordial y platos cocinados con productos de la región.
+        Visítanos cualquier día entre las 09:00 y las 18:00.
+      </p>
+    </header>
+
+    <ul class="amenities">
+      @for (a of amenities; track a.label) {
+        <li class="amenity">
+          <span class="amenity__icon" aria-hidden="true">{{ a.icon }}</span>
+          <span class="amenity__label">{{ a.label }}</span>
+        </li>
+      }
+    </ul>
+  </div>
+</section>
+
+<section class="section section--alt" aria-labelledby="dishes-title">
+  <div class="container">
+    <header class="section__header">
+      <span class="section__eyebrow">Nuestra carta</span>
+      <h2 id="dishes-title">Platos que enamoran</h2>
+      <p>
+        Una pequeña muestra de nuestros favoritos. Mira la carta completa con precios actualizados.
+      </p>
+    </header>
+
+    <div class="dish-grid">
+      @for (dish of highlights$ | async; track dish.id) {
+        <article class="dish card">
+          <div class="dish__media">
+            <img [src]="dish.imageUrl" [alt]="dish.name" loading="lazy" decoding="async" />
+          </div>
+          <div class="dish__body">
+            <h3>{{ dish.name }}</h3>
+            <p>{{ dish.description }}</p>
+            <div class="dish__footer">
+              <strong>{{ dish.price | sol }}</strong>
+              @if (dish.tags?.length) {
+                <span class="tag">{{ dish.tags?.[0] }}</span>
+              }
+            </div>
+          </div>
+        </article>
+      }
+    </div>
+
+    <div class="section__cta">
+      <a routerLink="/menu" class="btn btn--ghost">Ver carta completa</a>
+    </div>
+  </div>
+</section>
+
+<section class="section" aria-labelledby="testimonials-title">
+  <div class="container">
+    <header class="section__header">
+      <span class="section__eyebrow">Lo que dicen</span>
+      <h2 id="testimonials-title">Opiniones de quienes nos visitan</h2>
+    </header>
+
+    <div class="reviews">
+      @for (review of reviews$ | async; track review.id) {
+        <article class="review card">
+          <header class="review__head">
+            <span class="review__avatar" aria-hidden="true">{{
+              review.avatarInitial ?? review.author[0]
+            }}</span>
+            <div>
+              <strong>{{ review.author }}</strong>
+              <small>{{ review.source }} · {{ review.date }}</small>
+            </div>
+          </header>
+          <div class="review__stars" aria-label="{{ review.rating }} de 5 estrellas">
+            @for (s of stars; track s) {
+              <span [ngClass]="'star star--' + ratingFraction(review.rating, s)">★</span>
+            }
+          </div>
+          <p>{{ review.comment }}</p>
+        </article>
+      }
+    </div>
+  </div>
+</section>
+
+<section class="section section--cta" aria-labelledby="cta-title">
+  <div class="container section--cta__inner">
+    <div>
+      <span class="section__eyebrow">¿Listo para visitarnos?</span>
+      <h2 id="cta-title">Reserva tu mesa o pregunta por eventos</h2>
+      <p>Confirmamos tu reserva por WhatsApp o por llamada. Sin pagos online obligatorios.</p>
+    </div>
+    <div class="section--cta__actions">
+      <a routerLink="/reservas" class="btn">Reservar ahora</a>
+      <a [href]="whatsappLink" target="_blank" rel="noopener" class="btn btn--whatsapp">WhatsApp</a>
+    </div>
+  </div>
+</section>

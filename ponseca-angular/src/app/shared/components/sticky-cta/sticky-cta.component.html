@@ -1,0 +1,21 @@
+@if (!hideOnAdmin) {
+  <div class="sticky-cta" role="region" aria-label="Acciones rápidas">
+    <a routerLink="/reservas" class="sticky-cta__btn sticky-cta__btn--primary">
+      <span aria-hidden="true">📅</span>
+      <span>Reservar</span>
+    </a>
+    <a
+      [href]="whatsappHref"
+      target="_blank"
+      rel="noopener"
+      class="sticky-cta__btn sticky-cta__btn--whatsapp"
+    >
+      <span aria-hidden="true">💬</span>
+      <span>WhatsApp</span>
+    </a>
+    <a [href]="phoneHref" class="sticky-cta__btn sticky-cta__btn--call">
+      <span aria-hidden="true">📞</span>
+      <span>Llamar</span>
+    </a>
+  </div>
+}

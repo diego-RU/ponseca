@@ -1,0 +1,50 @@
+.booking__layout {
+  display: grid;
+  gap: 1.5rem;
+  grid-template-columns: 1fr;
+  align-items: start;
+}
+
+.booking__form,
+.booking__aside {
+  padding: 1.4rem;
+}
+
+.booking__actions {
+  display: grid;
+  gap: 0.75rem;
+  margin-top: 1rem;
+}
+
+.booking__aside h2 {
+  font-size: 1.25rem;
+  margin-bottom: 0.4rem;
+}
+
+.booking__aside h3 {
+  font-size: 1rem;
+  margin-top: 1.2rem;
+  margin-bottom: 0.3rem;
+}
+
+.booking__aside ol {
+  padding-left: 1.2rem;
+  display: grid;
+  gap: 0.4rem;
+}
+
+.muted {
+  font-size: 0.9rem;
+  color: var(--color-muted);
+}
+
+@media (min-width: 880px) {
+  .booking__layout {
+    grid-template-columns: 1.5fr 1fr;
+    gap: 2rem;
+  }
+
+  .booking__actions {
+    grid-template-columns: 1fr 1fr;
+  }
+}
