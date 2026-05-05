@@ -1,0 +1,47 @@
+<header class="site-header" [class.is-open]="menuOpen()">
+  <div class="container site-header__inner">
+    <a routerLink="/" class="brand" (click)="closeMenu()">
+      <span class="brand__logo" aria-hidden="true">RP</span>
+      <span class="brand__text">
+        <span class="brand__title">Recreo Ponceca</span>
+        <span class="brand__sub">Andahuaylas · Apurímac</span>
+      </span>
+    </a>
+
+    <button
+      class="site-header__toggle"
+      type="button"
+      [attr.aria-expanded]="menuOpen()"
+      aria-controls="site-nav"
+      aria-label="Abrir menú de navegación"
+      (click)="toggleMenu()"
+    >
+      <span class="bar"></span>
+      <span class="bar"></span>
+      <span class="bar"></span>
+    </button>
+
+    <nav id="site-nav" class="site-nav" aria-label="Principal">
+      <ul class="site-nav__list">
+        @for (item of navItems; track item.path) {
+          <li>
+            <a
+              [routerLink]="item.path"
+              routerLinkActive="is-active"
+              [routerLinkActiveOptions]="{ exact: item.path === '/' }"
+              (click)="closeMenu()"
+            >
+              {{ item.label }}
+            </a>
+          </li>
+        }
+        @if (currentUser()) {
+          <li>
+            <a routerLink="/admin" routerLinkActive="is-active" (click)="closeMenu()"> Panel </a>
+          </li>
+        }
+      </ul>
+      <a routerLink="/reservas" class="btn btn--sm" (click)="closeMenu()">Reservar</a>
+    </nav>
+  </div>
+</header>

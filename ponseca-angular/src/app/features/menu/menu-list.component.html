@@ -1,0 +1,62 @@
+<section class="section">
+  <div class="container">
+    <header class="section__header">
+      <span class="section__eyebrow">Carta del recreo</span>
+      <h1>Sabores de Apurímac</h1>
+      <p>
+        Una selección de platos cocinados con productos locales. Pregunta por nuestras sugerencias
+        del día — la disponibilidad puede variar según temporada.
+      </p>
+      <button type="button" class="btn btn--ghost btn--sm" (click)="downloadMenu()">
+        Descargar carta
+      </button>
+    </header>
+
+    <div class="filters" role="tablist" aria-label="Filtrar platos por categoría">
+      @for (cat of categories; track cat.id) {
+        <button
+          type="button"
+          role="tab"
+          [attr.aria-selected]="activeCategory() === cat.id"
+          [ngClass]="{ 'is-active': activeCategory() === cat.id }"
+          class="filter"
+          (click)="setCategory(cat.id)"
+        >
+          {{ cat.label }}
+        </button>
+      }
+    </div>
+
+    <ul class="menu-grid" role="list">
+      @for (item of visibleItems(); track item.id) {
+        <li>
+          <article class="menu-item card" [attr.aria-disabled]="!item.available">
+            <div class="menu-item__media">
+              <img [src]="item.imageUrl" [alt]="item.name" loading="lazy" decoding="async" />
+              @if (item.spicy) {
+                <span class="menu-item__badge" aria-label="Picante">🌶️</span>
+              }
+            </div>
+            <div class="menu-item__body">
+              <header>
+                <h2>{{ item.name }}</h2>
+                <strong>{{ item.price | sol }}</strong>
+              </header>
+              <p>{{ item.description }}</p>
+              <footer>
+                <span class="tag">{{ categoryLabel(item.category) }}</span>
+                @if (!item.available) {
+                  <span class="tag tag--muted">Agotado</span>
+                }
+              </footer>
+            </div>
+          </article>
+        </li>
+      } @empty {
+        <li>
+          <p class="muted">No hay platos en esta categoría todavía.</p>
+        </li>
+      }
+    </ul>
+  </div>
+</section>
